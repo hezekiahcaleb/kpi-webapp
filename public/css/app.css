@@ -1,7 +1,68 @@
+.unstyled-button{
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}
+
+.delete-button{
+    color: red;
+}
+
 .hover-nav{
     color: white;
 }
 
 .hover-nav:hover{
     color: lightslategray;
+}
+
+.heading{
+    color: black;
+}
+
+.heading:hover{
+    color: lightslategray;
+    text-decoration: underline;
+}
+
+.no-style{
+    color:inherit;
+    text-decoration: none;
+}
+
+.form-container{
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px -15px rgba(0, 0, 0, 0.3);
+}
+
+.form-group{
+    color: #333;
+    width: 50%;
+    padding: 0 8px;
+    margin: 0 0 15px;
+}
+
+.form-container label{
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.form-control{
+    background: #fff;
+    font-weight: 400;
+    letter-spacing: 1px;
+    height: 40px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 2px solid #e7e7e7;
+    box-shadow: none;
+}
+
+.indicator-table{
+    width: 100%;
+}
+
+.indicator-table .form-control{
+    border: none;
 }

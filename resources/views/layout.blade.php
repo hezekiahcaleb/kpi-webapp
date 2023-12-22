@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <header class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark border-bottom border-secondary">
@@ -62,7 +63,7 @@
                         </li> --}}
                         <li class="nav-item">
                             <a href="/manageform" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-file-earmark-spreadsheet"></i> <span class="ms-1 d-none d-sm-inline">KPI Form</span></a>
+                                <i class="fs-4 bi-file-earmark-spreadsheet"></i> <span class="ms-1 d-none d-sm-inline">Manage Form</span></a>
                         </li>
                         <li class="nav-item">
                             <a href="/inputdata" class="nav-link px-0 align-middle hover-nav">
@@ -100,7 +101,7 @@
                     <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
                 </ul> --}}
                 <div class="container">
-                    <h3>@yield('heading')</h3>
+                    <h3 class="d-flex mb-3">@yield('heading')</h3>
                     @yield('content')
                 </div>
             </div>
