@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,16 +16,35 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+//Auth::routes();
 
-Route::get('/', [PageController::class, 'index']);
-Route::get('/home', [PageController::class, 'index']);
-Route::get('/dashboard', [PageController::class, 'dashboardPage']);
-Route::get('/manageform', [PageController::class, 'manageFormPage']);
-Route::get('/addform', [PageController::class, 'addFormPage']);
-Route::get('/editform/{id}', [PageController::class, 'editFormPage']);
-Route::get('/inputdata', [PageController::class, 'inputDataPage']);
-Route::get('/profile', [PageController::class, 'profilePage']);
+Route::get('/login', [PageController::class, 'loginPage'])->name('login');
+Route::post('/login', [UserController::class, 'storeSession']);
+Route::post('/logout', [UserController::class, 'destroySession']);
+
+Route::get('/', [PageController::class, 'index'])->middleware('auth');
+Route::get('/home', [PageController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [PageController::class, 'dashboardPage'])->middleware('auth');
+Route::get('/managerole', [PageController::class, 'manageRolePage'])->middleware('auth');
+Route::get('/addrole', [PageController::class, 'addRolePage'])->name('addrole')->middleware('auth');
+Route::get('/editrole/{id}', [PageController::class, 'editRolePage'])->name('editrole')->middleware('auth');
+Route::get('/manageuser', [PageController::class, 'manageUserPage'])->middleware('auth');
+Route::get('/adduser', [PageController::class, 'addUserPage'])->middleware('auth');
+Route::get('/edituser/{id}', [PageController::class, 'editUserPage'])->middleware('auth');
+Route::get('/manageform', [PageController::class, 'manageFormPage'])->middleware('auth');
+Route::get('/addform', [PageController::class, 'addFormPage'])->middleware('auth');
+Route::get('/editform/{id}', [PageController::class, 'editFormPage'])->middleware('auth');
+Route::get('/inputdata', [PageController::class, 'inputDataPage'])->middleware('auth');
+Route::get('/getform/{id}', [PageController::class, 'inputDataFormPage'])->middleware('auth');
+Route::get('/profile', [PageController::class, 'profilePage'])->middleware('auth');
+
+Route::post('add-role', [RoleController::class, 'insertRole']);
+Route::post('update-role/{id}', [RoleController::class, 'updateRole']);
+Route::delete('delete-role/{id}', [RoleController::class, 'deleteRole']);
+
+Route::post('add-user', [UserController::class, 'insertUser']);
+Route::post('update-user/{id}', [UserController::class, 'updateUser']);
+Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
 
 Route::post('add-form', [FormController::class, 'insertForm']);
 Route::post('update-form/{id}', [FormController::class, 'updateForm']);

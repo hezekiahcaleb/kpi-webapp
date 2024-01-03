@@ -47,10 +47,10 @@
         <li class="page-item"><a class="page-link" href="{{$data->nextPageUrl()}}">Next</a></li>
     </ul>
 </nav>
-<div class="text-center my-4">
-    @if (session()->has('message'))
+@if (session()->has('message'))
+    <div class="text-center my-4">
         <i class="text-success">{{session()->get('message')}}</i>
-    @endif
-</div>
+    </div>
+@endif
 
 @endsection

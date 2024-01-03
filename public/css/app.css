@@ -1,7 +1,40 @@
+.primary-color{
+    color: #43766C;
+}
+
+.primary-bg{
+    background-color: #43766C;
+    color: #ffffff;
+}
+
+.complement-color{
+    color: #76453B;
+}
+
+.complement-bg{
+    background-color: #76453B;
+}
+
+.background-bg{
+    background-color: #F8FAE5;
+}
+
+.offwhite-bg{
+    background-color: #FBFFF4;
+}
+
+.horizon-shadow{
+    box-shadow: .125rem 0 .25rem rgba(0, 0, 0, .075);
+}
+
 .unstyled-button{
     border: none;
     background-color: transparent;
     padding: 0;
+}
+
+.update-button{
+    margin-right: 25px;
 }
 
 .delete-button{

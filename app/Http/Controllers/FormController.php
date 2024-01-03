@@ -70,14 +70,20 @@ class FormController extends Controller
             $form->form_description = $request->formdesc;
 
             $delIndicators = FormDetail::where('form_id', $id)->get();
+            $delMappings = FormMapping::where('form_id', $id)->get();
 
-            foreach($request->mapping as $mapping){
-                $mappingExist = formMapping::where('form_id', $id)->where('role_id', $mapping)->get();
-                if($mappingExist != null){
+            $mappings = $request->input('mapping');
+            foreach($mappings as $mapping){
+                $mappingExist = FormMapping::where('form_id', $id)->where('role_id', $mapping)->get();
+                if($mappingExist->isEmpty()){
                     $formMapping = new FormMapping();
                     $formMapping->form_id = $id;
                     $formMapping->role_id = $mapping;
                     $formMapping->save();
+                } else{
+                    $delMappings = $delMappings->filter(function($item) use ($mappingExist){
+                        return $item != $mappingExist->first();
+                    });
                 }
             }
 
@@ -105,6 +111,9 @@ class FormController extends Controller
 
             foreach($delIndicators as $delIndicator){
                 $delIndicator->delete();
+            }
+            foreach($delMappings as $delMapping){
+                $delMapping->delete();
             }
             $form->save();
         }

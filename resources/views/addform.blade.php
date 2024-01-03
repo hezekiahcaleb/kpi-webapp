@@ -6,11 +6,11 @@
     <a href="/manageform" class="heading no-style">Manage Form</a>
     <span class="ms-2 me-2">/</span>
     <a href="/addform" class="heading no-style">
-    @if ($type == 'add')
-    Add Form
-    @elseif ($type == 'update')
-    Edit Form
-    @endif
+        @if ($type == 'add')
+            Add Form
+        @elseif ($type == 'update')
+            Edit Form
+        @endif
     </a>
 @endsection
 
@@ -91,11 +91,11 @@
             @endforeach
         @endif
     </div>
-    <div class="text-center my-4">
-        @if (session()->has('message'))
+    @if (session()->has('message'))
+        <div class="text-center my-4">
             <i class="text-success">{{session()->get('message')}}</i>
-        @endif
-    </div>
+        </div>
+    @endif
 </div>
 
 <script type="text/javascript">

@@ -10,4 +10,12 @@ class FormMapping extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    public function roles(){
+        return $this->belongsToMany(Role::class, 'role_id');
+    }
+
+    public function forms(){
+        return $this->belongsToMany(Form::class, 'form_id');
+    }
 }

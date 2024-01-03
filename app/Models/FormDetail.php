@@ -10,4 +10,8 @@ class FormDetail extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    public function form(){
+        return $this->belongsTo(Form::class, 'form_id');
+    }
 }

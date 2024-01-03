@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body>
-    <header class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark border-bottom border-secondary">
+<body class="background-bg">
+    <header class="navbar navbar-dark navbar-expand-lg fixed-top primary-bg shadow-sm">
         <div class="container-fluid d-flex px-4">
             <a class="navbar-brand" href="#">
                 {{-- <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> --}}
@@ -22,19 +22,21 @@
                 <a href="#" class="d-block link-dark text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow">
                     <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    <li>
+                        <form class="dropdown-item" action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="unstyled-button text-white">Sign out</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
     </header>
     <div class="container-fluid mt-5 pt-2">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark border-right border-secondary">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 primary-bg horizon-shadow">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     {{-- <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">Menu</span>
@@ -68,6 +70,14 @@
                         <li class="nav-item">
                             <a href="/inputdata" class="nav-link px-0 align-middle hover-nav">
                                 <i class="fs-4 bi-box-arrow-in-down-left"></i> <span class="ms-1 d-none d-sm-inline">Input KPI</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/managerole" class="nav-link px-0 align-middle hover-nav">
+                                <i class="fs-4 bi-building-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage Role</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/manageuser" class="nav-link px-0 align-middle hover-nav">
+                                <i class="fs-4 bi-person-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage User</span></a>
                         </li>
                         <li class="nav-item">
                             <a href="/profile" class="nav-link px-0 align-middle hover-nav">
@@ -109,9 +119,10 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{{ asset('/js/app.js') }}"></script>
 </body>
 </html>
