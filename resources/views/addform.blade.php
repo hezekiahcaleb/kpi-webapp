@@ -99,7 +99,12 @@
 </div>
 
 <script type="text/javascript">
+    var type = {!! json_encode($type) !!};
+    var formDetailData = {!! json_encode($formDetailData) !!};
     var i = 1;
+    if(type == 'update' && formDetailData.length > 0){
+        i = formDetailData.length;
+    }
     $("#add-btn").click(function(){
         $("#dynamicAddRemove").append('<tr><td class="d-none"><input type="text" name="indicator['+i+'][id]"></td><td><input type="text" name="indicator['+i+'][name]" placeholder="Enter Indicator Name" class="form-control"></td><td><input type="text" name="indicator['+i+'][description]" placeholder="Enter Description" class="form-control"></td><td><input type="number" name="indicator['+i+'][target]" placeholder="Enter Target" class="form-control"></td><td><input type="text" name="indicator['+i+'][weight]" placeholder="Enter Weight" class="form-control"></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
         i++;

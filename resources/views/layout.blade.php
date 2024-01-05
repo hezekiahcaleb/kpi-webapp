@@ -69,7 +69,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="/inputdata" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-box-arrow-in-down-left"></i> <span class="ms-1 d-none d-sm-inline">Input KPI</span></a>
+                                <i class="fs-4 bi-box-arrow-in-down-left"></i> <span class="ms-1 d-none d-sm-inline">Input Data</span></a>
                         </li>
                         <li class="nav-item">
                             <a href="/managerole" class="nav-link px-0 align-middle hover-nav">

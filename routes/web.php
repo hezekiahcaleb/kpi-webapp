@@ -4,6 +4,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\KPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,3 +50,5 @@ Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
 Route::post('add-form', [FormController::class, 'insertForm']);
 Route::post('update-form/{id}', [FormController::class, 'updateForm']);
 Route::delete('delete-form/{id}', [FormController::class, 'deleteForm']);
+
+Route::post('savekpi', [KPIController::class, 'saveKpi']);

@@ -7,7 +7,8 @@
 @section('content')
 
 <div class="container form-container offwhite-bg">
-    <form action="" method="POST">
+    <form action="/savekpi" method="POST">
+        @csrfhtm
         <div class="row ms-1">
             <div class="form-group col">
                 <label for="period" class="row">Period</label>
@@ -30,7 +31,7 @@
                 </div>
             </div>
             <div class="row justify-content-end" id="save-btn" hidden>
-                <button type="submit" class="btn btn-primary col-1">Save</button>
+                <button type="submit" class="btn btn-primary col-1">Submit</button>
             </div>
         @else
             <div class="col">No forms has been assigned!</div>

@@ -11,11 +11,12 @@
     </tr>
     @forelse ($form->formDetails as $formDetail)
         <tr>
+            <input type="text" name="result[{{$loop->index}}][indicator]" value="{{$formDetail->id}}" hidden>
             <td>{{$formDetail->indicator_name}}</td>
             <td>{{$formDetail->description}}</td>
             <td>{{$formDetail->weight}}%</td>
             <td>{{$formDetail->target}}</td>
-            <td><input type="text" name="actual[{{$loop->index}}]" placeholder="Enter Value" class="form-control"></td>
+            <td><input type="text" name="result[{{$loop->index}}][value]" placeholder="Enter Value" class="form-control"></td>
         </tr>
     @empty
         <div>No indicators have been set.</div>

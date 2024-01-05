@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Form;
 use App\Models\FormMapping;
 use App\Models\FormDetail;
+use App\Models\KpiResult;
 
 class PageController extends Controller
 {
@@ -20,7 +21,9 @@ class PageController extends Controller
     }
 
     public function dashboardPage(){
-        return view('dashboard');
+        $kpiResult = KpiResult::where('user_id', auth()->user()->id)->get();
+        
+        return view('dashboard')->with('kpiResult', $kpiResult->first());
     }
 
     public function manageRolePage(){
