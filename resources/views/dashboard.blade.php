@@ -234,7 +234,6 @@
                     //     return {x: monthName, y: i.score};
                     // });
 
-                    console.log(data);
                     createTrendChart(data);
                 }
             })
@@ -279,7 +278,7 @@
             };
 
             trendChart = new Chart(trendCtx, trendConfig);
-            trendChart.update();
+            // trendChart.update();
         }
     });
 </script>

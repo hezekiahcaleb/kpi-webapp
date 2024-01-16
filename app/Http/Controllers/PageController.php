@@ -109,7 +109,7 @@ class PageController extends Controller
     public function addFormPage(){
         $roles = Role::all();
 
-        return view('addform')->with('type', 'add')->with('roles', $roles);
+        return view('addform')->with('type', 'add')->with('roles', $roles)->with('formDetailData', []);
     }
 
     public function editFormPage($id){
