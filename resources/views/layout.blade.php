@@ -31,7 +31,7 @@
                     <li>
                         <form class="dropdown-item" action="/logout" method="POST">
                             @csrf
-                            <button type="submit" class="unstyled-button text-white">Sign out</button>
+                            <button type="submit" class="unstyled-button text-white">Logout</button>
                         </form>
                     </li>
                 </ul>

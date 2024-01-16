@@ -71,6 +71,10 @@
     </div>
 @endif
 
+@endsection
+
+@section('scripts')
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(document).on('click', '.modal-button', function(e){
