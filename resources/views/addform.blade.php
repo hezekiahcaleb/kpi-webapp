@@ -98,6 +98,10 @@
     @endif
 </div>
 
+@endsection
+
+@section('scripts')
+
 <script type="text/javascript">
     var type = {!! json_encode($type) !!};
     var formDetailData = {!! json_encode($formDetailData) !!};

@@ -21,9 +21,32 @@ class PageController extends Controller
     }
 
     public function dashboardPage(){
-        $kpiResult = KpiResult::where('user_id', auth()->user()->id)->get();
-        
-        return view('dashboard')->with('kpiResult', $kpiResult->first());
+        $yearRange = [date("Y"), 2010];
+        $kpiResult = KpiResult::where('user_id', auth()->user()->id)->orderBy('period', 'DESC')->get();
+
+        if($kpiResult->isEmpty()){
+            return view('dashboard')->with('kpiResult', [])->with('latestKpi', [])->with('yearRange', $yearRange);
+        }
+        $latestKpi = $kpiResult->first();
+        $evaluation = '';
+        if($latestKpi->score >= 0 && $latestKpi->score < 75){
+            $evaluation = 'Need Improvement';
+        } else if($latestKpi->score >= 75 && $latestKpi->score < 100){
+            $evaluation = 'Below Expectation';
+        } else if($latestKpi->score >= 100 && $latestKpi->score < 125){
+            $evaluation = 'Meet Expectation';
+        } else if($latestKpi->score >= 125 && $latestKpi->score <= 150){
+            $evaluation = 'Above Expectation';
+        } else {
+            $evaluation = 'Data Invalid';
+        }
+
+        $latestKpiData = [
+            'score' => $latestKpi->score,
+            'evaluation' => $evaluation
+        ];
+
+        return view('dashboard')->with('kpiResult', $kpiResult)->with('latestKpi', $latestKpiData)->with('yearRange', $yearRange);
     }
 
     public function manageRolePage(){

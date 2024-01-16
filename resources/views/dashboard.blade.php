@@ -1,77 +1,110 @@
 @extends('layout')
 
-@section('title', 'Dashboard - KPI Monitoring App')
+@section('title', 'Dashboard - Performance Monitoring App')
 
 @section('heading', 'Dashboard')
+
+@php
+    $user = auth()->user();
+    $children = $user->role->children;
+@endphp
 
 @section('content')
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 my-2">
-            <div class="card">
-                <div class="card-body" id="score-card">
-                    <h5 class="card-title text-center">Score</h5>
+        <div class="col-lg-4 my-2">
+            <div class="card shadow-sm">
+                <div class="card-body text-center" id="score-card">
+                    <h5 class="card-title">Score</h5>
                     <canvas id="score-chart"></canvas>
+                    <h2>{{empty($latestKpi) ? '-' : $latestKpi['score']}}</h2>
+                    <p>{{empty($latestKpi) ? '-' : $latestKpi['evaluation']}}</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-8 my-2">
-            <div class="card">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a href="" class="nav-link active">Item 1</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Item 2</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="col-lg-8 my-2">
+            <div class="card shadow-sm">
                 <div class="card-body">
-
+                    <h5 class="card-title text-center">Report</h5>
+                    <input type="month" name="period" id="reportperiod" class="">
+                    @if (!$children->isEmpty())
+                        <select id="reportemployee">
+                            @foreach ($children as $child)
+                                @foreach ($child->users as $employees)
+                                    <option value="{{$employees->id}}"><b>{{$child->role_name}}</b> - {{$employees->name}}</option>
+                                @endforeach
+                            @endforeach
+                        </select>
+                    @endif
+                    <button type="button" class="btn btn-primary" id="reportbutton">Go</button>
+                    <div id="dynamic-report">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col my-2">
-            <div class="card">
-                <div class="card-body">
+        <div class="col-12 my-2">
+            <div class="card shadow-sm">
+                <div class="card-body row">
                     <h5 class="card-title">Progress</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil illum cupiditate, vero et iure eveniet enim, minus quos accusamus fugiat minima distinctio assumenda aliquid dolores voluptates doloremque animi velit quae.</p>
+                    <select id="trendperiod" class="col-1">
+                        @foreach (range($yearRange[0], $yearRange[1]) as $year)
+                            <option value="{{$year}}" {{$yearRange[0] == $year ? 'selected' : ''}}>{{$year}}</option>
+                        @endforeach
+                    </select>
+                    @if (!$children->isEmpty())
+                        <select id="trendemployee" name="employees[]" multiple="multiple" class="col-4">
+                            @foreach ($children as $child)
+                                @foreach ($child->users as $employees)
+                                    <option value="{{$employees->id}}">{{$child->role_name}} - {{$employees->name}}</option>
+                                @endforeach
+                            @endforeach
+                        </select>
+                    @endif
+                    <button type="button" class="btn btn-primary col-1" id="trendbutton">Go</button>
+                    <hr class="my-3"/>
+                    <div id="dynamic-trend" class="row">
+                        <canvas id="trend-chart" class="col-12"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-{{-- <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+@endsection
+
+@section('scripts')
+
 <script type="text/javascript">
-    var score = {!! json_encode($kpiResult->score) !!};
+    //gaugeChart
+    var latestKpi = JSON.parse('{!!json_encode($latestKpi)!!}');
+    var score = 0;
+    var evaluation = "-";
+    if(latestKpi.length > 0 || latestKpi.length != 0){
+        score = latestKpi['score'];
+        evaluation = latestKpi['evaluation'];
+    }
+
     const ctx = document.getElementById('score-chart').getContext('2d');
 
-    const chartWidth = document.querySelector('#score-card').getBoundingClientRect().width - 34;
-    const gradientSegment = ctx.createLinearGradient(0, 0, chartWidth, 0);
-    gradientSegment.addColorStop(0, 'red');
-    gradientSegment.addColorStop(0.5, 'yellow');
-    gradientSegment.addColorStop(1, 'green');
-
     const data = {
-            labels: ['Score', 'Gray Area'],
+            labels: ['Need Improvement', 'Below Expectation', 'Meet Expectation', 'Above Expectation'],
             datasets: [{
-                label: '',
-                data: [score, 150-score],
+                label: 'Score',
+                data: [75, 25, 25, 25],
                 backgroundColor: [
-                    gradientSegment,
-                    'rgba(0, 0, 0, 0.2)'
+                    'rgba(251, 105, 98, 1)',
+                    'rgba(252, 252, 153, 1)',
+                    'rgba(121, 222, 121, 1)',
+                    'rgba(12, 192, 120, 1)'
                 ],
                 borderColor: [
-                    'rgba(255, 26, 104, 0.2)',
-                    'rgba(0, 0, 0, 0.2)'
+                    'rgba(255, 255, 255, 1)'
                 ],
-                borderWidth: 1,
+                borderWidth: 5,
                 cutout: '75%',
                 circumference: 180,
                 rotation: 270
@@ -86,22 +119,51 @@
             ctx.save();
             const xCoor = chart.getDatasetMeta(0).data[0].x;
             const yCoor = chart.getDatasetMeta(0).data[0].y;
-            const dScore = data.datasets[0].data[0];
-            let rating;
-            if(dScore < 75){rating = 'Need Improvement';}
-            else if(dScore >= 75 && dScore < 100){rating = 'Below Expectation';}
-            else if(dScore >= 100 && dScore < 125){rating = 'Meet Expectation';}
-            else if(dScore >= 125){rating = 'Above Expectation';}
-            else{rating = 'Data Invalid';}
 
             ctx.font = '15px sans-serif';
             ctx.textBaseLine = 'top';
             ctx.textAlign = 'center';
             ctx.fillText('0', left+20, yCoor+20);
             ctx.fillText('150', right-20, yCoor+20);
-            ctx.fillText(rating, xCoor, yCoor-40);
-            ctx.font = '32px sans-serif';
-            ctx.fillText(dScore, xCoor, yCoor);
+        }
+    };
+
+    const gaugeNeedle = {
+        id : 'gaugeNeedle',
+        afterDatasetsDraw(chart, args, plugins){
+            const{ctx, data} = chart;
+
+            ctx.save();
+            const xCenter = chart.getDatasetMeta(0).data[0].x;
+            const yCenter = chart.getDatasetMeta(0).data[0].y;
+            const outRadius = chart.getDatasetMeta(0).data[0].outerRadius;
+            const innerRadius = chart.getDatasetMeta(0).data[0].innerRadius;
+            const midSlice = (outRadius - innerRadius) / 2;
+            const radius = 10;
+            const angle = Math.PI / 180;
+            const needleValue = score;
+            const dataTotal = data.datasets[0].data.reduce((a, b) => a + b, 0);
+            const circumference = ((chart.getDatasetMeta(0).data[0].circumference / Math.PI) / data.datasets[0].data[0]) * needleValue;
+
+            ctx.translate(xCenter, yCenter);
+            ctx.rotate(Math.PI * (circumference + 1.5))
+
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = 'black';
+            ctx.lineWidth = 1;
+            ctx.moveTo(0-radius, 0);
+            ctx.lineTo(0, 0 - innerRadius - midSlice);
+            ctx.lineTo(0+radius, 0);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, angle * 360, false);
+            ctx.fill();
+
+            ctx.restore();
         }
     };
 
@@ -109,6 +171,11 @@
         type: 'doughnut',
         data,
         options: {
+            layout : {
+                // padding: {
+                //     bottom: 20
+                // }
+            },
             aspectRatio: 1.5,
             plugins: {
                 legend: {
@@ -119,10 +186,101 @@
                 }
             }
         },
-        plugins: [gaugeChartText]
+        plugins: [gaugeChartText, gaugeNeedle]
     };
 
     const scoreChart = new Chart(ctx, config);
-</script>
 
+    $(document).ready(function(){
+        $('#trendemployee').select2({
+            placeholder: "Select employees"
+        });
+        var userHasChildren = {!!json_encode(!$children->isEmpty())!!};
+        //reports
+        $('#reportbutton').on("click" ,function(){
+            var selectedPeriod = $('#reportperiod').val();
+            var selectedUser = $('#reportemployee').val();
+            var url = '/getReport/' + selectedPeriod;
+            if(userHasChildren){
+                url = '/getChildReport/' + selectedPeriod + '/' + selectedUser;
+            }
+            if(selectedPeriod != ''){
+                $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    $('#dynamic-report').html(response);
+                }
+                })
+                .fail(function(){
+                    $('#dynamic-report').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+                });
+            }
+        });
+
+        //trends
+        $('#trendbutton').on("click", function(){
+            var selectedPeriod = $('#trendperiod').val();
+            var selectedUser = $('#trendemployee').select2('data');
+            var arrUser = selectedUser.map(i => i.id);
+            $.ajax({
+                url: '/getUserKpiByYear/' + selectedPeriod + '/' + encodeURIComponent(JSON.stringify(arrUser)),
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                    // const arr = data.map(i =>{
+                    //     const date = new Date(i.period);
+                    //     const monthName = date.toLocaleString('default', {month: 'short'});
+                    //     return {x: monthName, y: i.score};
+                    // });
+
+                    console.log(data);
+                    createTrendChart(data);
+                }
+            })
+            .fail(function(){
+                $('#dynamic-trend').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+            });
+        });
+
+        function createTrendChart(data){
+            var trendChart = Chart.getChart("trend-chart");
+            if(trendChart){
+                trendChart.destroy();
+            }
+            let trendCtx = document.getElementById('trend-chart').getContext('2d');
+            // let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            const trendData = {
+                // labels: months,
+                datasets: [{
+                    label: 'Score',
+                    data: data,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            };
+
+            const trendConfig = {
+                type: 'line',
+                data: trendData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 150,
+                            ticks: {
+                                stepSize: 10
+                            }
+                        }
+                    }
+                }
+            };
+
+            trendChart = new Chart(trendCtx, trendConfig);
+            trendChart.update();
+        }
+    });
+</script>
 @endsection

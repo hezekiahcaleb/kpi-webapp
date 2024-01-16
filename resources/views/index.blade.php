@@ -1,11 +1,11 @@
 @extends('layout')
 
-@section('title', 'KPI Monitoring App')
+@section('title', 'Performance Monitoring App')
 
 @section('heading', 'Home')
 
 @section('content')
-    <h1>Welcome to KPI Monitoring App</h1>
+    <h1>Welcome to Performance Monitoring App</h1>
     <p>Input, monitor and analyze your employees performance.</p>
 
     <div class="row">

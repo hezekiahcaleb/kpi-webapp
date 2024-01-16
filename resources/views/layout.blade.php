@@ -8,15 +8,19 @@
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
 </head>
 <body class="background-bg">
+    @php
+        $user = auth()->user();
+    @endphp
     <header class="navbar navbar-dark navbar-expand-lg fixed-top primary-bg shadow-sm">
         <div class="container-fluid d-flex px-4">
             <a class="navbar-brand" href="#">
                 {{-- <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> --}}
-                <span>KPI Monitoring App</span>
+                <span>Performance Monitoring App</span>
             </a>
             <div class="flex-shrink-0 dropdown dropdown-light">
                 <a href="#" class="d-block link-dark text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,14 +75,16 @@
                             <a href="/inputdata" class="nav-link px-0 align-middle hover-nav">
                                 <i class="fs-4 bi-box-arrow-in-down-left"></i> <span class="ms-1 d-none d-sm-inline">Input Data</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/managerole" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-building-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage Role</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/manageuser" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-person-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage User</span></a>
-                        </li>
+                        @if ($user->role->role_name == 'ADMIN')
+                            <li class="nav-item">
+                                <a href="/managerole" class="nav-link px-0 align-middle hover-nav">
+                                    <i class="fs-4 bi-building-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage Role</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/manageuser" class="nav-link px-0 align-middle hover-nav">
+                                    <i class="fs-4 bi-person-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage User</span></a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a href="/profile" class="nav-link px-0 align-middle hover-nav">
                                 <i class="fs-4 bi-person"></i> <span class="ms-1 d-none d-sm-inline">Profile</span> </a>
@@ -120,9 +126,13 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="{{ asset('/js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

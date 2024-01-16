@@ -39,6 +39,11 @@ Route::get('/inputdata', [PageController::class, 'inputDataPage'])->middleware('
 Route::get('/getform/{id}', [PageController::class, 'inputDataFormPage'])->middleware('auth');
 Route::get('/profile', [PageController::class, 'profilePage'])->middleware('auth');
 
+Route::get('/getReport/{period}', [KPIController::class, 'getReport'])->middleware('auth');
+Route::get('/getChildReport/{period}/{userId}', [KPIController::class, 'getChildReport'])->middleware('auth');
+Route::get('/getUserKpiByYear/{year}/{user}', [KPIController::class, 'getUserKpiByYear']);
+Route::get('/getChildrenKpiByDate/{date}', [KPIController::class, 'getChildrenKpiByDate']);
+
 Route::post('add-role', [RoleController::class, 'insertRole']);
 Route::post('update-role/{id}', [RoleController::class, 'updateRole']);
 Route::delete('delete-role/{id}', [RoleController::class, 'deleteRole']);

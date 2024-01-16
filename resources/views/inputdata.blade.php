@@ -8,7 +8,7 @@
 
 <div class="container form-container offwhite-bg">
     <form action="/savekpi" method="POST">
-        @csrfhtm
+        @csrf
         <div class="row ms-1">
             <div class="form-group col">
                 <label for="period" class="row">Period</label>
@@ -39,6 +39,9 @@
     </form>
 </div>
 
+@endsection
+
+@section('scripts')
 <script type="text/javascript">
     $(document).ready(function (){
         $('#selectform').change(function(){
@@ -57,5 +60,4 @@
         });
     });
 </script>
-
 @endsection

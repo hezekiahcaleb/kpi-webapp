@@ -12,7 +12,7 @@
         <div class="container h-100">
             <div class="row gx-lg-5 align-items-center h-100">
                 <div class="col-lg-7 mb-5 mb-lg-0 text-white">
-                    <h1>KPI <br/>
+                    <h1>Performance <br/>
                         <span>Monitoring App</span>
                     </h1>
                     <p >

@@ -30,7 +30,7 @@ class KPIController extends Controller
             $formDetail = FormDetail::find($result['indicator']);
             if($formDetail != null){
                 $score += $this->calculateScore($result['value'], $formDetail->target, $formDetail->weight);
-                $indicator[] = [
+                $indicators[] = [
                     'name' => $formDetail->indicator_name,
                     'weight' => $formDetail->weight,
                     'target' => $formDetail->target,
@@ -70,5 +70,29 @@ class KPIController extends Controller
         }
 
         return $score * ($weight/100);
+    }
+
+    public function getReport($period){
+        $kpiResult = KpiResult::where('period', $period."-01")->where('user_id', auth()->user()->id)->get()->first();
+
+        return view('report')->with('summary', json_decode($kpiResult->summary));
+    }
+
+    public function getChildReport($period, $userId){
+        $kpiResult = KpiResult::where('period', $period."-01")->where('user_id', $userId)->get()->first();
+
+        return view('report')->with('summary', json_decode($kpiResult->summary));
+    }
+
+    public function getUserKpiByYear($year, $employee){
+        $from = $year.'-01-01';
+        $to = $year.'-12-31';
+        $kpiResult = KpiResult::whereIn('user_id', json_decode($employee))->whereBetween('period', [$from, $to])->get();
+
+        return response()->json($kpiResult);
+    }
+
+    public function getChildrenKpiByDate($date){
+
     }
 }
