@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('role_name');
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->tinyInteger('form_permission');
         });
     }
 

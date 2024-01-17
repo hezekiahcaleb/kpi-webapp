@@ -68,13 +68,21 @@
                             </ul>
                         </li> --}}
                         <li class="nav-item">
-                            <a href="/manageform" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-file-earmark-spreadsheet"></i> <span class="ms-1 d-none d-sm-inline">Manage Form</span></a>
-                        </li>
-                        <li class="nav-item">
                             <a href="/inputdata" class="nav-link px-0 align-middle hover-nav">
                                 <i class="fs-4 bi-box-arrow-in-down-left"></i> <span class="ms-1 d-none d-sm-inline">Input Data</span></a>
                         </li>
+                        @if (!$user->role->children->isEmpty())
+                            <li class="nav-item">
+                                <a href="/approvedata" class="nav-link px-0 align-middle hover-nav">
+                                    <i class="fs-4 bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Approve Data</span></a>
+                            </li>
+                        @endif
+                        @if ($user->role->form_permission == 1)
+                            <li class="nav-item">
+                                <a href="/manageform" class="nav-link px-0 align-middle hover-nav">
+                                    <i class="fs-4 bi-file-earmark-spreadsheet"></i> <span class="ms-1 d-none d-sm-inline">Manage Form</span></a>
+                            </li>
+                        @endif
                         @if ($user->role->role_name == 'ADMIN')
                             <li class="nav-item">
                                 <a href="/managerole" class="nav-link px-0 align-middle hover-nav">

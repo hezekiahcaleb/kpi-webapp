@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('form_mappings', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('form_id');
             $table->unsignedBigInteger('role_id');
         });

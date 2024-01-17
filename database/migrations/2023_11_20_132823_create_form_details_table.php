@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('target');
             $table->integer('weight');
+            $table->tinyInteger('higher_better');
         });
     }
 

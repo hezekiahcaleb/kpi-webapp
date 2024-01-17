@@ -56,7 +56,7 @@ class RoleController extends Controller
         if($role!=null){
             $users = User::where('role_id', $id)->get();
             foreach($users as $user){
-                $user->role_id = null;
+                $user->role_id = 1;
                 $user->save();
             }
 

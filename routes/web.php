@@ -36,24 +36,26 @@ Route::get('/manageform', [PageController::class, 'manageFormPage'])->middleware
 Route::get('/addform', [PageController::class, 'addFormPage'])->middleware('auth');
 Route::get('/editform/{id}', [PageController::class, 'editFormPage'])->middleware('auth');
 Route::get('/inputdata', [PageController::class, 'inputDataPage'])->middleware('auth');
+Route::get('/approvedata', [PageController::class, 'approveDataPage'])->middleware('auth');
 Route::get('/getform/{id}', [PageController::class, 'inputDataFormPage'])->middleware('auth');
 Route::get('/profile', [PageController::class, 'profilePage'])->middleware('auth');
 
+Route::get('/getFormsByDate/{period}', [FormController::class, 'getFormsByDate'])->middleware('auth');
 Route::get('/getReport/{period}', [KPIController::class, 'getReport'])->middleware('auth');
 Route::get('/getChildReport/{period}/{userId}', [KPIController::class, 'getChildReport'])->middleware('auth');
-Route::get('/getUserKpiByYear/{year}/{user}', [KPIController::class, 'getUserKpiByYear']);
+Route::get('/getKpiByYear/{year}/{user}', [KPIController::class, 'getKpiByYear']);
 Route::get('/getChildrenKpiByDate/{date}', [KPIController::class, 'getChildrenKpiByDate']);
 
-Route::post('add-role', [RoleController::class, 'insertRole']);
-Route::post('update-role/{id}', [RoleController::class, 'updateRole']);
-Route::delete('delete-role/{id}', [RoleController::class, 'deleteRole']);
+Route::post('/add-role', [RoleController::class, 'insertRole']);
+Route::post('/update-role/{id}', [RoleController::class, 'updateRole']);
+Route::delete('/delete-role/{id}', [RoleController::class, 'deleteRole']);
 
-Route::post('add-user', [UserController::class, 'insertUser']);
-Route::post('update-user/{id}', [UserController::class, 'updateUser']);
-Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
+Route::post('/add-user', [UserController::class, 'insertUser']);
+Route::post('/update-user/{id}', [UserController::class, 'updateUser']);
+Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser']);
 
-Route::post('add-form', [FormController::class, 'insertForm']);
-Route::post('update-form/{id}', [FormController::class, 'updateForm']);
-Route::delete('delete-form/{id}', [FormController::class, 'deleteForm']);
+Route::post('/add-form', [FormController::class, 'insertForm']);
+Route::post('/update-form/{id}', [FormController::class, 'updateForm']);
+Route::delete('/delete-form/{id}', [FormController::class, 'deleteForm']);
 
-Route::post('savekpi', [KPIController::class, 'saveKpi']);
+Route::post('/savekpi', [KPIController::class, 'saveKpi']);

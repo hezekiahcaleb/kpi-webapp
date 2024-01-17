@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('form_name');
             $table->string('form_description');
+            $table->date('from');
+            $table->date('to');
         });
     }
 

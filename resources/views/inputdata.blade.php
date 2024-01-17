@@ -16,11 +16,11 @@
             </div>
             <div class="form-group col">
                 <label for="selectform" class="row">Form</label>
-                <select name="selectform" id="selectform" class="row">
+                <select name="selectform" id="selectform" class="row" disabled>
                     <option value="" selected disabled>-</option>
-                    @foreach ($forms as $form)
+                    {{-- @foreach ($forms as $form)
                         <option value="{{$form->id}}">{{$form->form_name}}</option>
-                    @endforeach
+                    @endforeach --}}
                 </select>
             </div>
         </div>
@@ -44,8 +44,35 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function (){
+        $('#period').change(function(){
+            var selectedPeriod = $(this).val();
+            $.ajax({
+                url: '/getFormsByDate/' + selectedPeriod,
+                type: 'GET',
+                success: function(data){
+                    $('#selectform').empty();
+                    if(data.length <= 0){
+                        $('#selectform').prop("disabled", true);
+                        $('#selectform').append($('<option>').val(null).text("Form unavailable"));
+                        $('#selectform').val(null).trigger('change');
+                    } else {
+                        $('#selectform').prop("disabled", false);
+                        $.each(data, function(key, value){
+                            $('#selectform').append($('<option>').val(key).text(value));
+                            $('#selectform').val(key).trigger('change');
+                        });
+                    }
+                }
+            }).fail(function(){
+                $('#selectform').prop("disabled", true);
+                $('#selectform').empty();
+                $('#selectform').append($('<option>').val(null).text("Form unavailable"));
+            });
+        })
+
         $('#selectform').change(function(){
             var selectedForm = $(this).val();
+            console.log(selectedForm);
             $.ajax({
                 url: '/getform/' + selectedForm,
                 type: 'GET',

@@ -24,35 +24,35 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'role_id' => 1,
+            'role_id' => 2,
             'password' => $pw1
         ]);
 
         DB::table('users')->insert([
             'name' => 'John Owner',
             'email' => 'johnowner@gmail.com',
-            'role_id' => 2,
+            'role_id' => 3,
             'password' => $pw2
         ]);
 
         DB::table('users')->insert([
             'name' => 'Lily Manager',
             'email' => 'lilymanager@gmail.com',
-            'role_id' => 3,
+            'role_id' => 4,
             'password' => $pw2
         ]);
 
         DB::table('users')->insert([
             'name' => 'Kyla Cashier',
             'email' => 'kylacashier@gmail.com',
-            'role_id' => 4,
+            'role_id' => 5,
             'password' => $pw2
         ]);
 
         DB::table('users')->insert([
             'name' => 'Dillan Clerk',
             'email' => 'dillanclerk@gmail.com',
-            'role_id' => 5,
+            'role_id' => 6,
             'password' => $pw2
         ]);
     }

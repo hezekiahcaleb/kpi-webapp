@@ -16,7 +16,7 @@
         <div class="col-lg-4 my-2">
             <div class="card shadow-sm">
                 <div class="card-body text-center" id="score-card">
-                    <h5 class="card-title">Score</h5>
+                    <h5 class="card-title">Your Average Score</h5>
                     <canvas id="score-chart"></canvas>
                     <h2>{{empty($latestKpi) ? '-' : $latestKpi['score']}}</h2>
                     <p>{{empty($latestKpi) ? '-' : $latestKpi['evaluation']}}</p>
@@ -26,10 +26,11 @@
         <div class="col-lg-8 my-2">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Report</h5>
+                    <h5 class="card-title text-center">Details</h5>
                     <input type="month" name="period" id="reportperiod" class="">
                     @if (!$children->isEmpty())
                         <select id="reportemployee">
+                            <option value="{{$user->id}}">{{$user->role->role_name}} - {{$user->name}}</option>
                             @foreach ($children as $child)
                                 @foreach ($child->users as $employees)
                                     <option value="{{$employees->id}}"><b>{{$child->role_name}}</b> - {{$employees->name}}</option>
@@ -54,15 +55,16 @@
                             <option value="{{$year}}" {{$yearRange[0] == $year ? 'selected' : ''}}>{{$year}}</option>
                         @endforeach
                     </select>
-                    @if (!$children->isEmpty())
-                        <select id="trendemployee" name="employees[]" multiple="multiple" class="col-4">
-                            @foreach ($children as $child)
-                                @foreach ($child->users as $employees)
-                                    <option value="{{$employees->id}}">{{$child->role_name}} - {{$employees->name}}</option>
+                    <select id="trendemployee" name="employees[]" multiple="multiple" class="col-4">
+                        <option value="{{$user->id}}">{{$user->role->role_name}} - {{$user->name}}</option>
+                        @if (!$children->isEmpty())
+                                @foreach ($children as $child)
+                                    @foreach ($child->users as $employees)
+                                        <option value="{{$employees->id}}">{{$child->role_name}} - {{$employees->name}}</option>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        </select>
-                    @endif
+                        @endif
+                    </select>
                     <button type="button" class="btn btn-primary col-1" id="trendbutton">Go</button>
                     <hr class="my-3"/>
                     <div id="dynamic-trend" class="row">
@@ -224,16 +226,10 @@
             var selectedUser = $('#trendemployee').select2('data');
             var arrUser = selectedUser.map(i => i.id);
             $.ajax({
-                url: '/getUserKpiByYear/' + selectedPeriod + '/' + encodeURIComponent(JSON.stringify(arrUser)),
+                url: '/getKpiByYear/' + selectedPeriod + '/' + encodeURIComponent(JSON.stringify(arrUser)),
                 type: 'GET',
                 dataType: 'json',
                 success: function(data){
-                    // const arr = data.map(i =>{
-                    //     const date = new Date(i.period);
-                    //     const monthName = date.toLocaleString('default', {month: 'short'});
-                    //     return {x: monthName, y: i.score};
-                    // });
-
                     createTrendChart(data);
                 }
             })
@@ -242,23 +238,40 @@
             });
         });
 
-        function createTrendChart(data){
+        function createTrendChart(rawData){
             var trendChart = Chart.getChart("trend-chart");
             if(trendChart){
                 trendChart.destroy();
             }
             let trendCtx = document.getElementById('trend-chart').getContext('2d');
-            // let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            const data = [];
+            for(const user of new Set(rawData.map((d) => d.user_id))){
+                const name = rawData.find((d) => d.user_id === user).name;
+                const scoresByMonth = Array(12).fill(null);
+                const scoreData = rawData.filter((d) => d.user_id === user).forEach((d) => {
+                    const {month, score} = d;
+                    scoresByMonth[month - 1] = score;
+                });
+                data.push({label: name, data: scoresByMonth});
+            }
+            console.log(data);
+
+            var datasets = [];
+            data.forEach(item => {
+                const dataset = {
+                    label: item.label,
+                    data: item.data,
+                    spanGaps: true
+                };
+                datasets.push(dataset);
+            });
+            console.log(datasets);
 
             const trendData = {
-                // labels: months,
-                datasets: [{
-                    label: 'Score',
-                    data: data,
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
+                labels: months,
+                datasets: datasets
             };
 
             const trendConfig = {
@@ -278,7 +291,7 @@
             };
 
             trendChart = new Chart(trendCtx, trendConfig);
-            // trendChart.update();
+            trendChart.update();
         }
     });
 </script>

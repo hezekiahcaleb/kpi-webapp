@@ -12,6 +12,8 @@ use App\Models\KpiResult;
 
 class PageController extends Controller
 {
+    public $systemRoleId = [1, 2];
+
     public function loginPage(){
         return view('login');
     }
@@ -50,20 +52,20 @@ class PageController extends Controller
     }
 
     public function manageRolePage(){
-        $data = Role::paginate(10);
+        $data = Role::all()->except($this->systemRoleId)->toQuery()->paginate(10);
         $currentPage = $data->currentPage();
         $addRoleForm = view('addrole')->render();
         return view('managerole')->with('data', $data)->with('currentPage', $currentPage)->with('addRoleForm', $addRoleForm);
     }
 
     public function addRolePage(){
-        $roles = Role::all();
+        $roles = Role::all()->except($this->systemRoleId);
 
         return view('addrole')->with('type', 'add')->with('roleList', $roles);
     }
 
     public function editRolePage($id){
-        $roles = Role::all();
+        $roles = Role::all()->except($this->systemRoleId);
         $roleData = Role::find($id);
 
         $roles = $roles->reject(function($item) use ($roleData){
@@ -84,14 +86,14 @@ class PageController extends Controller
     }
 
     public function addUserPage(){
-        $roles = Role::all();
+        $roles = Role::all()->except($this->systemRoleId);
 
         return view('adduser')->with('type', 'add')->with('roleList', $roles);
     }
 
     public function editUserPage($id){
         $user = User::find($id);
-        $roles = Role::all();
+        $roles = Role::all()->except($this->systemRoleId);
 
         if($user!=null){
             return view('adduser')->with('type', 'update')->with('user', $user)->with('roleList', $roles);
@@ -107,7 +109,7 @@ class PageController extends Controller
     }
 
     public function addFormPage(){
-        $roles = Role::all();
+        $roles = Role::all()->except($this->systemRoleId);
 
         return view('addform')->with('type', 'add')->with('roles', $roles)->with('formDetailData', []);
     }
@@ -136,6 +138,12 @@ class PageController extends Controller
         $form = Form::find($id);
 
         return view('inputdataform')->with('form', $form);
+    }
+
+    public function approveDataPage(){
+        $kpiResults = KpiResult::where('is_approved', 0)->where('');
+
+        return view('approvedata')->with('data', $kpiResults);
     }
 
     public function profilePage(){

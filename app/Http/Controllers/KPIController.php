@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\Models\KpiResult;
 use App\Models\Form;
 use App\Models\FormDetail;
@@ -84,10 +85,16 @@ class KPIController extends Controller
         return view('report')->with('summary', json_decode($kpiResult->summary));
     }
 
-    public function getUserKpiByYear($year, $employee){
+    public function getKpiByYear($year, $employee){
         $from = $year.'-01-01';
         $to = $year.'-12-31';
-        $kpiResult = KpiResult::whereIn('user_id', json_decode($employee))->whereBetween('period', [$from, $to])->get();
+        // $kpiResult = DB::table('kpi_results')->join('users', 'kpi_results.user_id', '=', 'users.id')->select('user_id', 'users.name', 'period', 'score')->whereIn('user_id', json_decode($employee))->whereBetween('period', [$from, $to])->get();
+        $kpiResult = DB::table('kpi_results')
+                    ->join('users', 'kpi_results.user_id', '=', 'users.id')
+                    ->select('user_id', 'users.name', DB::raw('MONTH(period) as month'), 'score')
+                    ->whereIn('user_id', json_decode($employee))
+                    ->whereYear('period', $year)
+                    ->get();
 
         return response()->json($kpiResult);
     }

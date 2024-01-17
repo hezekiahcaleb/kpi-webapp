@@ -137,4 +137,13 @@ class FormController extends Controller
         session()->flash('message', "Form doesn't exist!");
         return redirect()->back();
     }
+
+    public function getFormsByDate($period){
+        $role = auth()->user()->role;
+        $formMapping = FormMapping::select('form_id')->where('role_id', $role->id)->get();
+        $period = $period.'-01';
+        $forms = Form::whereIn('id', $formMapping)->whereDate('from', '<=', $period)->whereDate('to', '>=', $period)->get();
+
+        return response()->json($forms->pluck('form_name', 'id'));
+    }
 }
