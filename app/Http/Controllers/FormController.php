@@ -14,7 +14,7 @@ class FormController extends Controller
 {
     public function insertForm(Request $request){
         $validator = Validator::make($request->all(),[
-            'formname' => 'required',
+            'formname' => 'required|unique:forms,form_name',
             'formdesc' => 'required',
             'mapping' => 'required|array|min:1',
             'indicator' => 'required|array|min:1',
@@ -22,12 +22,18 @@ class FormController extends Controller
         ]);
 
         if($validator->fails()){
-            return back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator);
+        }
+
+        if(empty($request->indicator)){
+            return redirect()->back()->withErrors('At least one indicator is required!');
         }
 
         $form = new Form();
         $form->form_name = $request->formname;
         $form->form_description = $request->formdesc;
+        $form->from = $request->from.'-01';
+        $form->to = $request->to.'-01';
         $form->save();
 
         foreach($request->mapping as $mapping){
@@ -44,6 +50,7 @@ class FormController extends Controller
             $indicator->description = $indicatorData['description'];
             $indicator->target = $indicatorData['target'];
             $indicator->weight = $indicatorData['weight'];
+            $indicator->higher_better = (isset($indicatorData['higherbetter']) ? 1 : 0);
             $indicator->save();
         }
 
@@ -53,7 +60,7 @@ class FormController extends Controller
 
     public function updateForm(Request $request, $id){
         $validator = Validator::make($request->all(),[
-            'formname' => 'required',
+            'formname' => 'required|unique:forms,form_name,'.$id,
             'formdesc' => 'required',
             'mapping' => 'required|array|min:1',
             'indicator' => 'required|array|min:1',
@@ -64,10 +71,16 @@ class FormController extends Controller
             return back()->withErrors($validator);
         }
 
+        if(empty($request->indicator)){
+            return redirect()->back()->withErrors('At least one indicator is required!');
+        }
+
         $form = Form::find($id);
         if($form != null){
             $form->form_name = $request->formname;
             $form->form_description = $request->formdesc;
+            $form->from = $request->from.'-01';
+            $form->to = $request->to.'-01';
 
             $delIndicators = FormDetail::where('form_id', $id)->get();
             $delMappings = FormMapping::where('form_id', $id)->get();
@@ -106,6 +119,7 @@ class FormController extends Controller
                 $indicator->description = $indicatorData['description'];
                 $indicator->target = $indicatorData['target'];
                 $indicator->weight = $indicatorData['weight'];
+                $indicator->higher_better = (isset($indicatorData['higherbetter']) ? 1 : 0);
                 $indicator->save();
             }
 
@@ -118,6 +132,7 @@ class FormController extends Controller
             $form->save();
         }
 
+        session()->flash('message', 'Form successfully updated!');
         return redirect()->back();
     }
 

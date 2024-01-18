@@ -72,18 +72,19 @@
 
         $('#selectform').change(function(){
             var selectedForm = $(this).val();
-            console.log(selectedForm);
-            $.ajax({
+            if(!selectedForm == "" && !selectedForm == null){
+                $.ajax({
                 url: '/getform/' + selectedForm,
                 type: 'GET',
                 success: function(response){
                     $('#dynamic-form').html(response);
                     $('#save-btn').removeAttr('hidden');
                 }
-            })
-            .fail(function(){
-                $('#dynamic-form').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
-            });
+                })
+                .fail(function(){
+                    $('#dynamic-form').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+                });
+            }
         });
     });
 </script>

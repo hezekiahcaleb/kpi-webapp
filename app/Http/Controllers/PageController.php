@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Form;
@@ -24,31 +25,52 @@ class PageController extends Controller
 
     public function dashboardPage(){
         $yearRange = [date("Y"), 2010];
-        $kpiResult = KpiResult::where('user_id', auth()->user()->id)->orderBy('period', 'DESC')->get();
+        // $kpiResult = KpiResult::where('user_id', auth()->user()->id)->orderBy('period', 'DESC')->get();
 
-        if($kpiResult->isEmpty()){
-            return view('dashboard')->with('kpiResult', [])->with('latestKpi', [])->with('yearRange', $yearRange);
+        // if($kpiResult->isEmpty()){
+        //     return view('dashboard')->with('kpiResult', [])->with('latestKpi', [])->with('yearRange', $yearRange);
+        // }
+        // $latestKpi = $kpiResult->first();
+        // $evaluation = '';
+        // if($latestKpi->score >= 0 && $latestKpi->score < 75){
+        //     $evaluation = 'Need Improvement';
+        // } else if($latestKpi->score >= 75 && $latestKpi->score < 100){
+        //     $evaluation = 'Below Expectation';
+        // } else if($latestKpi->score >= 100 && $latestKpi->score < 125){
+        //     $evaluation = 'Meet Expectation';
+        // } else if($latestKpi->score >= 125 && $latestKpi->score <= 150){
+        //     $evaluation = 'Above Expectation';
+        // } else {
+        //     $evaluation = 'Data Invalid';
+        // }
+
+        $avgScore = KpiResult::select(DB::raw('round(avg(score), 0) as score'))->where('user_id', auth()->user()->id)->get()->first();
+
+        if($avgScore->score == "" || $avgScore->score == null){
+            return view('dashboard')->with('latestKpi', [])->with('yearRange', $yearRange);
         }
-        $latestKpi = $kpiResult->first();
+
         $evaluation = '';
-        if($latestKpi->score >= 0 && $latestKpi->score < 75){
+        if($avgScore->score >= 0 && $avgScore->score < 75){
             $evaluation = 'Need Improvement';
-        } else if($latestKpi->score >= 75 && $latestKpi->score < 100){
+        } else if($avgScore->score >= 75 && $avgScore->score < 100){
             $evaluation = 'Below Expectation';
-        } else if($latestKpi->score >= 100 && $latestKpi->score < 125){
+        } else if($avgScore->score >= 100 && $avgScore->score < 125){
             $evaluation = 'Meet Expectation';
-        } else if($latestKpi->score >= 125 && $latestKpi->score <= 150){
+        } else if($avgScore->score >= 125 && $avgScore->score <= 150){
             $evaluation = 'Above Expectation';
         } else {
             $evaluation = 'Data Invalid';
         }
 
         $latestKpiData = [
-            'score' => $latestKpi->score,
+            // 'score' => $latestKpi->score,
+            // 'evaluation' => $evaluation
+            'score' => $avgScore->score,
             'evaluation' => $evaluation
         ];
 
-        return view('dashboard')->with('kpiResult', $kpiResult)->with('latestKpi', $latestKpiData)->with('yearRange', $yearRange);
+        return view('dashboard')->with('latestKpi', $latestKpiData)->with('yearRange', $yearRange);
     }
 
     public function manageRolePage(){
@@ -118,7 +140,7 @@ class PageController extends Controller
         $formData = Form::find($id);
 
         if($formData!=null){
-            $roles = Role::all();
+            $roles = Role::all()->except($this->systemRoleId);
             $formMappingData = FormMapping::where('form_id', $id)->get();
             $formDetailData = FormDetail::where('form_id', $id)->get();
             return view('addform')->with('type', 'update')->with('formData', $formData)->with('roles', $roles)->with('formMappingData', $formMappingData)->with('formDetailData', $formDetailData);
@@ -141,12 +163,14 @@ class PageController extends Controller
     }
 
     public function approveDataPage(){
-        $kpiResults = KpiResult::where('is_approved', 0)->where('');
-
-        return view('approvedata')->with('data', $kpiResults);
+        $roleChildren = auth()->user()->role->children;
+        $userChildren = User::whereIn('role_id', $roleChildren->pluck('id'))->get();
+        $kpiResults = KpiResult::select('id', 'user_id', DB::raw('DATE_FORMAT(period, "%M %Y") as period'), 'summary->form as form_name')->where('is_approved', 0)->whereIn('user_id', $userChildren->pluck('id'))->paginate(10);
+        $currentPage = $kpiResults->currentPage();
+        return view('approvedata')->with('data', $kpiResults)->with('currentPage', $currentPage);
     }
 
     public function profilePage(){
-        return view('profile');
+        return view('profile')->with('active_tab', '#update-password');
     }
 }

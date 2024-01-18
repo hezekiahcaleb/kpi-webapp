@@ -4,16 +4,16 @@
     @csrf
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" placeholder="Name" value="{{$type=='update' ? $user->name : ''}}">
+        <input type="text" class="form-control" name="name" placeholder="Name" value="{{$type=='update' ? $user->name : ''}}" required>
     </div>
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" class="form-control" name="email" placeholder="Email" value="{{$type=='update' ? $user->email : ''}}">
+        <input type="email" class="form-control" name="email" placeholder="Email" value="{{$type=='update' ? $user->email : ''}}" required>
     </div>
     <div class="form-group">
         <label for="parent">Role</label>
         <select class="form-select" name="role">
-            <option value="0" disabled {{$type=='add' ? 'selected' : ''}}>-</option>
+            <option value=null disabled {{$type=='add' ? 'selected' : ''}}>-</option>
             @foreach ($roleList as $role)
                 <option value="{{$role->id}}" {{(($type=='update') && ($role->id == $user->role_id)) ? 'selected' : ''}}>{{$role->role_name}}</option>
             @endforeach

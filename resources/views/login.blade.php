@@ -44,7 +44,7 @@
                                 </button>
                             </form>
                             @if (session()->has('loginError'))
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div class="alert alert-danger alert-dismissible fade show text-center mt-2" role="alert">
                                     {{ session('loginError') }}
                                 </div>
                             @endif

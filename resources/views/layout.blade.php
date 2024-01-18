@@ -18,23 +18,26 @@
     @endphp
     <header class="navbar navbar-dark navbar-expand-lg fixed-top primary-bg shadow-sm">
         <div class="container-fluid d-flex px-4">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/home">
                 {{-- <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> --}}
                 <span>Performance Monitoring App</span>
             </a>
-            <div class="flex-shrink-0 dropdown dropdown-light">
-                <a href="#" class="d-block link-dark text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow">
-                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                    <li>
-                        <form class="dropdown-item" action="/logout" method="POST">
-                            @csrf
-                            <button type="submit" class="unstyled-button text-white">Logout</button>
-                        </form>
-                    </li>
-                </ul>
+            <div class="row">
+                <p class="col-6 text-nowrap text-end my-auto me-2">{{$user->name}}</p>
+                <div class="flex-shrink-0 dropdown dropdown-light col-4">
+                    <a href="#" class="d-block link-dark text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow">
+                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                        <li>
+                            <form class="dropdown-item" action="/logout" method="POST">
+                                @csrf
+                                <button type="submit" class="unstyled-button text-white">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </header>

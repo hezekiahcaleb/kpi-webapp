@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
 use App\Models\User;
 
@@ -34,7 +35,7 @@ class UserController extends Controller
             return redirect()->intended('/home');
         }
 
-        return back()->with('loginError', 'Login failed!');
+        return back()->with('loginError', 'Incorrect username or password.');
     }
 
     public function destroySession(Request $request){
@@ -47,8 +48,8 @@ class UserController extends Controller
 
     public function insertUser(Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|unique:users,name',
+            'email' => 'required|email|unique:users,email',
             'role' => 'required'
         ]);
 
@@ -69,8 +70,8 @@ class UserController extends Controller
 
     public function updateUser(Request $request, $id){
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|unique:users,name,'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'role' => 'required'
         ]);
 
@@ -102,5 +103,60 @@ class UserController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function personalDataPage(){
+        return view('personaldata');
+    }
+
+    public function updatePersonalData(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
+        $user = User::find(auth()->user()->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect()->back();
+    }
+
+    public function updatePasswordPage(){
+        return view('updatepassword');
+    }
+
+    public function updatePassword(Request $request){
+        $validator = Validator::make($request->all(), [
+            'oldpassword' => 'required|current_password',
+            'newpassword' => 'required|confirmed'
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
+        $user = User::find(auth()->user()->id);
+        if(Hash::check($request->oldpassword, $user->password)){
+            if($request->newpassword === $request->newpassword_confirmation){
+                $user->password = bcrypt($request->newpassword);
+                $user->save();
+            } else{
+                return back()->withErrors('Confirm password incorrect!');
+            }
+        } else{
+            return back()->withErrors('Old password incorrect!');
+        }
+
+        return redirect()->back();
+    }
+
+    public function resetPassword($id){
+
     }
 }

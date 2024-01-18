@@ -23,7 +23,7 @@ class IndicatorWeight implements InvokableRule
 
         // $totalWeight = collect($value)->sum('weight');
         if($totalWeight !== 100){
-            $fail('Total weight indicators must be exactly 100.');
+            $fail('Total indicators weight must be exactly 100.');
         }
     }
 }

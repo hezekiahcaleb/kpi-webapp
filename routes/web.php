@@ -39,12 +39,15 @@ Route::get('/inputdata', [PageController::class, 'inputDataPage'])->middleware('
 Route::get('/approvedata', [PageController::class, 'approveDataPage'])->middleware('auth');
 Route::get('/getform/{id}', [PageController::class, 'inputDataFormPage'])->middleware('auth');
 Route::get('/profile', [PageController::class, 'profilePage'])->middleware('auth');
+Route::get('/personaldata', [UserController::class, 'personalDataPage'])->name('profile.personaldata')->middleware('auth');
+Route::get('/updatepassword', [UserController::class, 'updatePasswordPage'])->name('profile.updatepassword')->middleware('auth');
 
 Route::get('/getFormsByDate/{period}', [FormController::class, 'getFormsByDate'])->middleware('auth');
 Route::get('/getReport/{period}', [KPIController::class, 'getReport'])->middleware('auth');
 Route::get('/getChildReport/{period}/{userId}', [KPIController::class, 'getChildReport'])->middleware('auth');
 Route::get('/getKpiByYear/{year}/{user}', [KPIController::class, 'getKpiByYear']);
 Route::get('/getChildrenKpiByDate/{date}', [KPIController::class, 'getChildrenKpiByDate']);
+Route::get('/getApprovalDetail/{id}', [KPIController::class, 'getApprovalDetail'])->middleware('auth');
 
 Route::post('/add-role', [RoleController::class, 'insertRole']);
 Route::post('/update-role/{id}', [RoleController::class, 'updateRole']);
@@ -59,3 +62,8 @@ Route::post('/update-form/{id}', [FormController::class, 'updateForm']);
 Route::delete('/delete-form/{id}', [FormController::class, 'deleteForm']);
 
 Route::post('/savekpi', [KPIController::class, 'saveKpi']);
+Route::post('/approve/{id}', [KPIController::class, 'approve']);
+
+Route::post('/update-personaldata', [UserController::class, 'updatePersonalData']);
+Route::post('/update-password', [UserController::class, 'updatePassword']);
+Route::post('/reset-password', [UserController::class, 'resetPassword']);

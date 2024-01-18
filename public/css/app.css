@@ -1,26 +1,26 @@
 .primary-color{
-    color: #43766C;
+    color: #2E4374;
 }
 
 .primary-bg{
-    background-color: #43766C;
+    background-color: #27374D;
     color: #ffffff;
 }
 
 .complement-color{
-    color: #76453B;
+    color: #526D82;
 }
 
 .complement-bg{
-    background-color: #76453B;
+    background-color: #526D82;
 }
 
 .background-bg{
-    background-color: #F8FAE5;
+    background-color: #DDE6ED;
 }
 
 .offwhite-bg{
-    background-color: #FBFFF4;
+    background-color: #F1FAFF;
 }
 
 .horizon-shadow{
@@ -61,6 +61,12 @@
 .no-style{
     color:inherit;
     text-decoration: none;
+}
+
+.content-container{
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px -15px rgba(0, 0, 0, 0.3);
 }
 
 .form-container{

@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function insertRole(Request $request){
         $validator = Validator::make($request->all(), [
-            'rolename' => 'required',
+            'rolename' => 'required|unique:roles,role_name',
             'parent' => 'required'
         ]);
 
@@ -22,6 +22,7 @@ class RoleController extends Controller
         $role = new Role();
         $role->role_name = $request->rolename;
         $role->parent_id = ($request->parent == '0') ? null : $request->parent;
+        $role->form_permission = isset($request->formpermission) ? 1 : 0;
         $role->save();
 
         session()->flash('message', 'Role successfully added!');
@@ -30,7 +31,7 @@ class RoleController extends Controller
 
     public function updateRole(Request $request, $id){
         $validator = Validator::make($request->all(), [
-            'rolename' => 'required',
+            'rolename' => 'required|unique:roles,role_name,'.$id,
             'parent' => 'required'
         ]);
 
@@ -42,6 +43,7 @@ class RoleController extends Controller
         if($role != null){
             $role->role_name = $request->rolename;
             $role->parent_id = ($request->parent == '0') ? null : $request->parent;
+            $role->form_permission = isset($request->formpermission) ? 1 : 0;
             $role->save();
 
             session()->flash('message', 'Role successfully updated!');

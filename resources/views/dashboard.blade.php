@@ -16,7 +16,7 @@
         <div class="col-lg-4 my-2">
             <div class="card shadow-sm">
                 <div class="card-body text-center" id="score-card">
-                    <h5 class="card-title">Your Average Score</h5>
+                    <h5 class="card-title">Average Score</h5>
                     <canvas id="score-chart"></canvas>
                     <h2>{{empty($latestKpi) ? '-' : $latestKpi['score']}}</h2>
                     <p>{{empty($latestKpi) ? '-' : $latestKpi['evaluation']}}</p>
