@@ -10,7 +10,7 @@
 
 <div class="container content-container offwhite-bg">
     <div class="text-end mb-2">
-        <button type="button" class="btn btn-primary modal-button" data-bs-toggle="modal" data-bs-target="#addRoleModal" data-action="Add" data-url="/addrole/">Add Role</button>
+        <button type="button" class="btn btn-primary modal-button addedit-button" data-bs-toggle="modal" data-bs-target="#addRoleModal" data-action="Add" data-url="/addrole/">Add Role</button>
     </div>
 
     <table class="table table-hover align-middle">
@@ -35,7 +35,7 @@
                     @endif
                 </td>
                 <td class="d-flex">
-                    <button class="unstyled-button update-button modal-button" data-bs-toggle="modal" data-bs-target="#addRoleModal" data-action="Edit" data-url="/editrole/{{$dt->id}}" data-bs-index="{{$dt->id}}"><i class="bi-pencil-square"></i></button>
+                    <button class="unstyled-button update-button modal-button addedit-button" data-bs-toggle="modal" data-bs-target="#addRoleModal" data-action="Edit" data-url="/editrole/{{$dt->id}}" data-bs-index="{{$dt->id}}"><i class="bi-pencil-square"></i></button>
                     <button type="button" class="unstyled-button delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi-trash3"></i></button>
                 </td>
             </tr>
@@ -106,15 +106,15 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(document).on('click', '.modal-button', function(e){
+        $(document).on('click', '.addedit-button', function(e){
             e.preventDefault();
 
             var url = $(this).data('url');
             var action = $(this).data('action');
 
-            $('.modal-title').text(action+' Role');
+            $('#addRoleModal .modal-title').text(action+' Role');
 
-            $('.modal-body').html('');
+            $('#addRoleModal .modal-body').html('');
 
             $.ajax({
                 url: url,
@@ -122,11 +122,11 @@
                 dataType: 'html'
             })
             .done(function(data){
-                $('.modal-body').html('');
-                $('.modal-body').html(data);
+                $('#addRoleModal .modal-body').html('');
+                $('#addRoleModal .modal-body').html(data);
             })
             .fail(function(){
-                $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+                $('#addRoleModal .modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
             });
 
         });

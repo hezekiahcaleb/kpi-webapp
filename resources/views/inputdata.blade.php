@@ -71,8 +71,12 @@
         })
 
         $('#selectform').change(function(){
+            $('#dynamic-form').html('');
+            $('#save-btn').attr('hidden', true);
             var selectedForm = $(this).val();
-            if(!selectedForm == "" && !selectedForm == null){
+            console.log(selectedForm);
+            if(selectedForm){
+                console.log("test");
                 $.ajax({
                 url: '/getform/' + selectedForm,
                 type: 'GET',

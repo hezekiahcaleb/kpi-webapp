@@ -9,7 +9,7 @@
 @section('content')
 <div class="container content-container offwhite-bg">
     <div class="text-end mb-2">
-        <button type="button" class="btn btn-primary modal-button" data-bs-toggle="modal" data-bs-target="#addUserModal" data-action="Add" data-url="/adduser/">Add User</button>
+        <button type="button" class="btn btn-primary modal-button addedit-button" data-bs-toggle="modal" data-bs-target="#addUserModal" data-action="Add" data-url="/adduser/">Add User</button>
     </div>
 
     <table class="table table-hover align-middle">
@@ -30,7 +30,7 @@
                 <td>{{$dt->email}}</td>
                 <td>{{$dt->role_id==null ? '-' : $dt->role->role_name}}</td>
                 <td class="d-flex">
-                    <button class="unstyled-button update-button modal-button" data-bs-toggle="modal" data-bs-target="#addUserModal" data-action="Edit" data-url="/edituser/{{$dt->id}}" data-bs-index="{{$dt->id}}"><i class="bi-pencil-square"></i></button>
+                    <button class="unstyled-button update-button modal-button addedit-button" data-bs-toggle="modal" data-bs-target="#addUserModal" data-action="Edit" data-url="/edituser/{{$dt->id}}" data-bs-index="{{$dt->id}}"><i class="bi-pencil-square"></i></button>
                     <button type="button" class="unstyled-button delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi-trash3"></i></button>
                 </td>
             </tr>
@@ -100,15 +100,15 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(document).on('click', '.modal-button', function(e){
+        $(document).on('click', '.addedit-button', function(e){
             e.preventDefault();
 
             var url = $(this).data('url');
             var action = $(this).data('action');
 
-            $('.modal-title').text(action+' User');
+            $('#addUserModal .modal-title').text(action+' User');
 
-            $('.modal-body').html('');
+            $('#addUserModal .modal-body').html('');
 
             $.ajax({
                 url: url,
@@ -116,11 +116,11 @@
                 dataType: 'html'
             })
             .done(function(data){
-                $('.modal-body').html('');
-                $('.modal-body').html(data);
+                $('#addUserModal .modal-body').html('');
+                $('#addUserModal .modal-body').html(data);
             })
             .fail(function(){
-                $('.modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+                $('#addUserModal .modal-body').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
             });
 
         });

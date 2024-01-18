@@ -11,48 +11,53 @@
 
 @section('content')
 
-<table class="table table-hover align-middle">
-    <thead>
-        <th scope="col">No</th>
-        <th scope="col">Employee</th>
-        <th scope="col">Form</th>
-        <th scope="col">Period</th>
-        <th scope="col">Actions</th>
-    </thead>
-    <tbody>
-        @forelse ($data as $dt)
-            <th scope="row">{{ ($currentPage-1) * 5 + $loop->iteration }}</th>
-            <td>{{$dt->user->name}}</td>
-            <td>{{$dt->form_name}}</td>
-            <td>{{$dt->period}}</td>
-            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal" data-index="{{$dt->id}}" id="approve-modal-btn">Approve</button></td>
-        @empty
-            <td>Data not found.</td>
-        @endforelse
-    </tbody>
-</table>
-<nav>
-    <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link" href="{{$data->previousPageUrl()}}">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="{{$data->nextPageUrl()}}">Next</a></li>
-    </ul>
-</nav>
-<div class="modal fade" id="approveModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Approve KPI</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
+<div class="container content-container offwhite-bg">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Employee</th>
+                <th scope="col">Form</th>
+                <th scope="col">Period</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($data as $dt)
+                <tr>
+                    <th scope="row">{{ ($currentPage-1) * 5 + $loop->iteration }}</th>
+                    <td>{{$dt->user->name}}</td>
+                    <td>{{$dt->form_name}}</td>
+                    <td>{{$dt->period}}</td>
+                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal" data-index="{{$dt->id}}" id="approve-modal-btn">Approve</button></td>
+                </tr>
+            @empty
+                <td>Data not found.</td>
+            @endforelse
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="{{$data->previousPageUrl()}}">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="{{$data->nextPageUrl()}}">Next</a></li>
+        </ul>
+    </nav>
+    <div class="modal fade" id="approveModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Approve KPI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
 
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')

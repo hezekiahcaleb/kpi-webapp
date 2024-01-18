@@ -256,7 +256,6 @@
                 });
                 data.push({label: name, data: scoresByMonth});
             }
-            console.log(data);
 
             var datasets = [];
             data.forEach(item => {

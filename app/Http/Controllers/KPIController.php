@@ -30,11 +30,12 @@ class KPIController extends Controller
         foreach($request->result as $result){
             $formDetail = FormDetail::find($result['indicator']);
             if($formDetail != null){
-                $score += $this->calculateScore($result['value'], $formDetail->target, $formDetail->weight, $formDetail->higherbetter);
+                $score += $this->calculateScore($result['value'], $formDetail->target, $formDetail->weight, $formDetail->higher_better);
                 $indicators[] = [
                     'name' => $formDetail->indicator_name,
                     'weight' => $formDetail->weight,
                     'target' => $formDetail->target,
+                    'higherbetter' => $formDetail->higher_better,
                     'value' => $result['value']
                 ];
             }
@@ -52,17 +53,17 @@ class KPIController extends Controller
         $kpiResult->period = $formattedDate;
         $kpiResult->score = $score;
         $kpiResult->summary = json_encode($summary);
-        $kpiResult->is_approved = 0;
+        $kpiResult->is_approved = (auth()->user()->role->parent == null) ? 1 : 0;
         $kpiResult->save();
 
         session()->flash('message', 'KPI successfully submitted!');
         return redirect()->back();
     }
 
-    public function calculateScore($value, $target, $weight, $higherbetter){
+    public function calculateScore($value, $target, $weight, $higher_better){
         $score = 0;
 
-        if($higherbetter == 1){
+        if($higher_better == 1){
             if($target == 0){
                 return $weight;
             }

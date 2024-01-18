@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <p>Input your monthly performance data.</p>
                     {{-- <a href="{{ route('realtime-metrics') }}" class="btn btn-primary">View Real-time Metrics</a> --}}
-                    <a class="btn btn-primary">Input KPI Data</a>
+                    <a href="/inputdata" class="btn btn-primary">Input KPI Data</a>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <p>Generate historical reports to analyze performance over time, identify bottlenecks, and make data-driven decisions.</p>
                     {{-- <a href="{{ route('historical-reports') }}" class="btn btn-primary">View Historical Reports</a> --}}
-                    <a class="btn btn-primary">View Historical Reports</a>
+                    <a href="dashboard" class="btn btn-primary">View Historical Reports</a>
                 </div>
             </div>
         </div>
