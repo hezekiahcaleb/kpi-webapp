@@ -41,6 +41,11 @@
                     <button type="button" class="btn btn-primary" id="reportbutton">Go</button>
                     <div id="dynamic-report">
                     </div>
+                    <div class="spinner-container d-flex justify-content-center d-none" id="report-spinner">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,7 +73,12 @@
                     <button type="button" class="btn btn-primary col-1" id="trendbutton">Go</button>
                     <hr class="my-3"/>
                     <div id="dynamic-trend" class="row">
-                        <canvas id="trend-chart" class="col-12"></canvas>
+                        <div class="spinner-container d-flex justify-content-center d-none" id="trend-spinner">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <canvas id="trend-chart" class="col-12 d-none"></canvas>
                     </div>
                 </div>
             </div>
@@ -194,12 +204,22 @@
     const scoreChart = new Chart(ctx, config);
 
     $(document).ready(function(){
+        function showSpinner(spinnerId) {
+            $(spinnerId).removeClass('d-none');
+        }
+
+        function hideSpinner(spinnerId) {
+            $(spinnerId).addClass('d-none');
+        }
+
         $('#trendemployee').select2({
             placeholder: "Select employees"
         });
         var userHasChildren = {!!json_encode(!$children->isEmpty())!!};
         //reports
         $('#reportbutton').on("click" ,function(){
+            $('#dynamic-report').html('');
+            showSpinner('#report-spinner');
             var selectedPeriod = $('#reportperiod').val();
             var selectedUser = $('#reportemployee').val();
             var url = '/getReport/' + selectedPeriod;
@@ -211,17 +231,22 @@
                 url: url,
                 type: 'GET',
                 success: function(response){
+                    hideSpinner('#report-spinner');
                     $('#dynamic-report').html(response);
                 }
                 })
                 .fail(function(){
+                    hideSpinner('#report-spinner');
                     $('#dynamic-report').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
                 });
+            } else {
+                hideSpinner('#report-spinner');
             }
         });
 
         //trends
         $('#trendbutton').on("click", function(){
+            showSpinner('#trend-spinner');
             var selectedPeriod = $('#trendperiod').val();
             var selectedUser = $('#trendemployee').select2('data');
             var arrUser = selectedUser.map(i => i.id);
@@ -234,6 +259,8 @@
                 }
             })
             .fail(function(){
+                hideSpinner('#trend-spinner');
+                $('#trend-chart').addClass('d-none');
                 $('#dynamic-trend').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
             });
         });
@@ -243,6 +270,7 @@
             if(trendChart){
                 trendChart.destroy();
             }
+            $('#trend-chart').removeClass('d-none');
             let trendCtx = document.getElementById('trend-chart').getContext('2d');
             let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -289,6 +317,7 @@
                 }
             };
 
+            hideSpinner('#trend-spinner');
             trendChart = new Chart(trendCtx, trendConfig);
             trendChart.update();
         }

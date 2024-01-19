@@ -17,6 +17,8 @@ class FormController extends Controller
             'formname' => 'required|unique:forms,form_name',
             'formdesc' => 'required',
             'mapping' => 'required|array|min:1',
+            'from' => 'required|date',
+            'to' => 'required|date|after:from',
             'indicator' => 'required|array|min:1',
             'indicator' => [new IndicatorWeight]
         ]);
@@ -54,8 +56,8 @@ class FormController extends Controller
             $indicator->save();
         }
 
-        session()->flash('message', 'Form successfully added!');
-        return redirect()->back();
+        session()->flash('message', 'Form '.$request->formname.' successfully added!');
+        return redirect()->route('manageform');
     }
 
     public function updateForm(Request $request, $id){
@@ -63,6 +65,8 @@ class FormController extends Controller
             'formname' => 'required|unique:forms,form_name,'.$id,
             'formdesc' => 'required',
             'mapping' => 'required|array|min:1',
+            'from' => 'required|date',
+            'to' => 'required|date|after:from',
             'indicator' => 'required|array|min:1',
             'indicator' => [new IndicatorWeight]
         ]);
@@ -132,8 +136,8 @@ class FormController extends Controller
             $form->save();
         }
 
-        session()->flash('message', 'Form successfully updated!');
-        return redirect()->back();
+        session()->flash('message', 'Form '.$request->formname.' successfully updated!');
+        return redirect()->route('manageform');
     }
 
     public function deleteForm($id){

@@ -16,7 +16,7 @@
         </li>
     </ul>
 
-    <div class="tab-content mb-2" id="tab-content">
+    <div class="tab-content" id="tab-content">
         <div class="tab-pane fade active show" id="personal-data">
             @include('personaldata')
         </div>

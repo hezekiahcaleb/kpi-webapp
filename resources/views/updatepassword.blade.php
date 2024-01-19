@@ -1,4 +1,4 @@
-<form action="update-password" method="POST" class="container mt-4">
+<form action="update-password" method="POST" class="container">
     @csrf
     <div class="row form-group">
         <label for="oldpassword">Old password</label>

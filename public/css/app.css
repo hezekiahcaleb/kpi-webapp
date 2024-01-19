@@ -1,3 +1,4 @@
+/* color palette */
 .primary-color{
     color: #2E4374;
 }
@@ -27,6 +28,11 @@
     box-shadow: .125rem 0 .25rem rgba(0, 0, 0, .075);
 }
 
+#menu .active{
+    font-weight: bold;
+}
+
+/* button */
 .unstyled-button{
     border: none;
     background-color: transparent;
@@ -46,7 +52,7 @@
 }
 
 .hover-nav:hover{
-    color: lightslategray;
+    color: #526D82;
 }
 
 .heading{
@@ -106,12 +112,37 @@
     border: none;
 }
 
-.ui-datepicker-calendar {
-    display: none;
- }
- .ui-datepicker-month {
-    display: none;
- }
- .ui-datepicker-next,.ui-datepicker-prev {
-   display:none;
- }
+/* profile tab */
+#tab-nav{
+    margin-bottom: 0px;
+    border-bottom: 1px solid #526D82
+}
+
+#tab-nav .nav-item{
+    border-bottom: 0px;
+}
+
+#tab-nav .nav-link{
+    color: #526D82;
+}
+
+#tab-nav .nav-link:hover{
+    color: #FFFFFF;
+    background-color: #526D82;
+}
+
+#tab-nav .active{
+    color: black;
+    background-color: #F1FAFF;
+    border: 1px solid #526D82;
+    border-bottom: 1px solid #F1FAFF;
+}
+
+#tab-content{
+    margin-top: 0px;
+    padding-top: 20px;
+}
+
+#tab-content .active{
+    background-color: #F1FAFF;
+}

@@ -27,6 +27,11 @@
         <hr class="row my-4" />
         @isset($forms)
             <div class="row">
+                <div class="spinner-container d-flex justify-content-center d-none">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
                 <div class="form-group col" id="dynamic-form">
                 </div>
             </div>
@@ -44,6 +49,15 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function (){
+
+        function showSpinner() {
+            $('.spinner-container').removeClass('d-none');
+        }
+
+        function hideSpinner() {
+            $('.spinner-container').addClass('d-none');
+        }
+
         $('#period').change(function(){
             var selectedPeriod = $(this).val();
             $.ajax({
@@ -71,6 +85,7 @@
         })
 
         $('#selectform').change(function(){
+            showSpinner();
             $('#dynamic-form').html('');
             $('#save-btn').attr('hidden', true);
             var selectedForm = $(this).val();
@@ -81,13 +96,17 @@
                 url: '/getform/' + selectedForm,
                 type: 'GET',
                 success: function(response){
+                    hideSpinner();
                     $('#dynamic-form').html(response);
                     $('#save-btn').removeAttr('hidden');
                 }
                 })
                 .fail(function(){
+                    hideSpinner();
                     $('#dynamic-form').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
                 });
+            } else {
+                hideSpinner();
             }
         });
     });

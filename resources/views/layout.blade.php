@@ -49,14 +49,14 @@
                         <span class="fs-5 d-none d-sm-inline">Menu</span>
                     </a> --}}
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                        <li class="nav-item">
+                        <li class="nav-item {{Request::is('home') ? 'active' : ''}}">
                             <a href="/home" class="nav-link align-middle px-0 hover-nav">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                <i class="fs-4 {{Request::is('home') ? 'bi-house-fill' : 'bi-house'}}"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{Request::is('dashboard') ? 'active' : ''}}">
                             <a href="/dashboard" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-bar-chart-line"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span></a>
+                                <i class="fs-4 {{Request::is('dashboard') ? 'bi-bar-chart-line-fill' : 'bi-bar-chart-line'}}"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span></a>
                         </li>
                         {{-- <li>
                             <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
@@ -70,35 +70,35 @@
                                 </li>
                             </ul>
                         </li> --}}
-                        <li class="nav-item">
+                        <li class="nav-item {{Request::is('inputdata') ? 'active' : ''}}">
                             <a href="/inputdata" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-box-arrow-in-down-left"></i> <span class="ms-1 d-none d-sm-inline">Input Data</span></a>
+                                <i class="fs-4 {{Request::is('inputdata') ? 'bi-pencil-fill' : 'bi-pencil'}}"></i> <span class="ms-1 d-none d-sm-inline">Input Data</span></a>
                         </li>
                         @if (!$user->role->children->isEmpty())
-                            <li class="nav-item">
+                            <li class="nav-item {{Request::is('approvedata') ? 'active' : ''}}">
                                 <a href="/approvedata" class="nav-link px-0 align-middle hover-nav">
-                                    <i class="fs-4 bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Approve Data</span></a>
+                                    <i class="fs-4 {{Request::is('approvedata') ? 'bi-clipboard-check-fill' : 'bi-clipboard-check'}}"></i> <span class="ms-1 d-none d-sm-inline">Approve Data</span></a>
                             </li>
                         @endif
                         @if ($user->role->form_permission == 1)
-                            <li class="nav-item">
+                            <li class="nav-item {{Request::is('manageform') ? 'active' : ''}}">
                                 <a href="/manageform" class="nav-link px-0 align-middle hover-nav">
-                                    <i class="fs-4 bi-file-earmark-spreadsheet"></i> <span class="ms-1 d-none d-sm-inline">Manage Form</span></a>
+                                    <i class="fs-4 {{Request::is('manageform') ? 'bi-file-earmark-spreadsheet-fill' : 'bi-file-earmark-spreadsheet'}}"></i> <span class="ms-1 d-none d-sm-inline">Manage Form</span></a>
                             </li>
                         @endif
                         @if ($user->role->role_name == 'ADMIN')
-                            <li class="nav-item">
+                            <li class="nav-item {{Request::is('managerole') ? 'active' : ''}}">
                                 <a href="/managerole" class="nav-link px-0 align-middle hover-nav">
-                                    <i class="fs-4 bi-building-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage Role</span></a>
+                                    <i class="fs-4 {{Request::is('managerole') ? 'bi-buildings-fill' : 'bi-buildings'}}"></i> <span class="ms-1 d-none d-sm-inline">Manage Role</span></a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {{Request::is('manageuser') ? 'active' : ''}}">
                                 <a href="/manageuser" class="nav-link px-0 align-middle hover-nav">
-                                    <i class="fs-4 bi-person-gear"></i> <span class="ms-1 d-none d-sm-inline">Manage User</span></a>
+                                    <i class="fs-4 {{Request::is('manageuser') ? 'bi-person-fill-gear' : 'bi-person-gear'}}"></i> <span class="ms-1 d-none d-sm-inline">Manage User</span></a>
                             </li>
                         @endif
-                        <li class="nav-item">
+                        <li class="nav-item {{Request::is('profile') ? 'active' : ''}}">
                             <a href="/profile" class="nav-link px-0 align-middle hover-nav">
-                                <i class="fs-4 bi-person"></i> <span class="ms-1 d-none d-sm-inline">Profile</span> </a>
+                                <i class="fs-4 {{Request::is('profile') ? 'bi-person-fill' : 'bi-person'}}"></i> <span class="ms-1 d-none d-sm-inline">Profile</span> </a>
                         </li>
                     </ul>
                     {{-- <hr>

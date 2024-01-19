@@ -2,7 +2,7 @@
     $user = auth()->user();
 @endphp
 
-<form action="/update-personaldata" method="POST" class="container mt-4">
+<form action="/update-personaldata" method="POST" class="container">
     @csrf
     {{-- <div class="row">
         <h5>Avatar</h5>

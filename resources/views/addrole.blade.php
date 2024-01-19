@@ -20,8 +20,8 @@
         <label class="form-check-label" for="formpermission">Form Permission</label>
     </div>
     <div class="d-flex justify-content-end me-1">
-        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary me-2">Save</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
     </div>
 </form>
 
