@@ -124,6 +124,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->save();
 
+        session()->flash('message', 'Data successfully updated!');
         return redirect()->back();
     }
 
@@ -153,6 +154,7 @@ class UserController extends Controller
             return back()->withErrors('Old password incorrect!');
         }
 
+        session()->flash('message', 'Password successfully updated!');
         return redirect()->back();
     }
 

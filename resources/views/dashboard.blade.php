@@ -313,7 +313,22 @@
                                 stepSize: 10
                             }
                         }
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: [{
+                                type: 'line',
+                                mode: 'horizontal',
+                                value: 100,
+                                yMin: 100,
+                                yMax: 100,
+                                borderColor: 'tomato',
+                                borderWidth: 1,
+                                borderDash: [5]
+                            }]
+                        }
                     }
+
                 }
             };
 

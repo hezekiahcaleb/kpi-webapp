@@ -22,11 +22,13 @@
                 {{-- <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> --}}
                 <span>Performance Monitoring App</span>
             </a>
-            <div class="row">
-                <p class="col-6 text-nowrap text-end my-auto me-2">{{$user->name}}</p>
-                <div class="flex-shrink-0 dropdown dropdown-light col-4">
+            <div class="row d-flex align-items-center">
+                <p class="mh-100 text-nowrap text-end text-truncate my-auto col-auto">
+                    <strong class="text-uppercase">{{$user->role->role_name}}</strong> {{$user->name}}
+                </p>
+                <div class="flex-shrink-0 dropdown dropdown-light col-auto">
                     <a href="#" class="d-block link-dark text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg" alt="Profile Picture" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="/profile">Profile</a></li>
@@ -127,7 +129,7 @@
                 <ul class="list-unstyled">
                     <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
                 </ul> --}}
-                <div class="container">
+                <div class="container mx-1">
                     <h3 class="d-flex mb-3">@yield('heading')</h3>
                     @yield('content')
                 </div>
@@ -143,6 +145,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="{{asset('/js/chartjs-plugin-annotation.min.js')}}"></script>
     <script src="{{ asset('/js/app.js') }}"></script>
     @yield('scripts')
 </body>

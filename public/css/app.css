@@ -108,6 +108,10 @@
     width: 100%;
 }
 
+.indicator-table table{
+    background-color: white;
+}
+
 .indicator-table .form-control{
     border: none;
 }

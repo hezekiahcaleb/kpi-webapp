@@ -70,6 +70,16 @@ class KPIController extends Controller
 
             $score = ($value/$target)*100;
         } else {
+            if($target == 0){
+                if($score == 0){
+                    return $weight;
+                } else {
+                    $score = ($target/($target+$value)*100);
+                }
+            } else if($score == 0){
+                $score = $target*100;
+            }
+
             $score = ($target/$value)*100;
         }
 

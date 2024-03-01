@@ -25,7 +25,7 @@
         <tbody>
             @forelse($data as $dt)
             <tr>
-                <th scope="row">{{ ($currentPage-1) * 5 + $loop->iteration }}</th>
+                <th scope="row">{{ ($currentPage-1) * 10 + $loop->iteration }}</th>
                 <td>{{$dt->role_name}}</td>
                 <td>
                     @if ($dt->parent)

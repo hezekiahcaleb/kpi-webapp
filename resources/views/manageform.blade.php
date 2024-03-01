@@ -25,8 +25,8 @@
         <tbody>
             @forelse($data as $dt)
             <tr>
-                <td>{{ ($currentPage-1) * 5 + $loop->iteration }}</td>
-                <td><a href="/detail/{{$dt->id}}" class="text-dark">{{$dt->form_name}}</a></td>
+                <td>{{ ($currentPage-1) * 10 + $loop->iteration }}</td>
+                <td>{{$dt->form_name}}</td>
                 <td>{{$dt->form_description}}</td>
                 <td class="d-flex">
                     <a href="/editform/{{$dt->id}}" class="me-4"><i class="bi-pencil-square"></i></a>

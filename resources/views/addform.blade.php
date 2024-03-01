@@ -60,8 +60,8 @@
         </div>
         <div class="form-group indicator-table">
             <h4 class="sub-title">Indicators</h4>
-            <table class="table table-bordered table-hover" id="dynamicAddRemove">
-                <tr>
+            <table class="table table-bordered table-hover align-middle" id="dynamicAddRemove">
+                <tr class="text-center">
                     <th>Name</th>
                     <th>Description</th>
                     <th>Target</th>

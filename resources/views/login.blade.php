@@ -16,7 +16,7 @@
                         <span>Monitoring App</span>
                     </h1>
                     <p >
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi ut error earum est quam delectus deleniti, officia quos provident consectetur placeat minus voluptatibus dolorum quas eligendi? Repudiandae molestiae adipisci delectus.
+                        Login with company email to proceed.
                     </p>
                 </div>
 

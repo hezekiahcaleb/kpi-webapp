@@ -16,7 +16,7 @@
             <td>{{$formDetail->description}}</td>
             <td>{{$formDetail->weight}}%</td>
             <td>{{$formDetail->target}}</td>
-            <td><input type="text" name="result[{{$loop->index}}][value]" placeholder="Enter Value" class="form-control"></td>
+            <td><input type="number" name="result[{{$loop->index}}][value]" placeholder="Enter Value" class="form-control" required></td>
         </tr>
     @empty
         <div>No indicators have been set.</div>

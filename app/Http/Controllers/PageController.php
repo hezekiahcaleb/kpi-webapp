@@ -44,7 +44,13 @@ class PageController extends Controller
         //     $evaluation = 'Data Invalid';
         // }
 
-        $avgScore = KpiResult::select(DB::raw('round(avg(score), 0) as score'))->where('user_id', auth()->user()->id)->get()->first();
+        $today = date('Y-m-d');
+        $lastYear = date('Y-m-d', strtotime('-1 year', strtotime($today)));
+        $avgScore = KpiResult::select(DB::raw('round(avg(score), 0) as score'))
+                    ->where('user_id', auth()->user()->id)
+                    ->whereRaw('DATE(period) >= ?', [$lastYear])
+                    ->whereRaw('DATE(period) <= ?', [$today])
+                    ->get()->first();
 
         if($avgScore->score == "" || $avgScore->score == null){
             return view('dashboard')->with('latestKpi', [])->with('yearRange', $yearRange);
